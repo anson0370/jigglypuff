@@ -8,11 +8,22 @@ utils = require "../utils"
 require "./helpers"
 
 # register all layout as partial first
-views = fs.readdirSync(env.viewsHome)
-views.forEach (fileName) ->
-  if fileName[0] is "_" and fileName.split(".")[1] is "hbs"
-    templateBuffer = fs.readFileSync "#{env.viewsHome}/#{fileName}"
-    handlebars.registerPartial fileName.split(".")[0], templateBuffer.toString()
+layouts = []
+findLayouts = (dir) ->
+  files = fs.readdirSync(dir)
+  files.forEach (file) ->
+    filePath = "#{dir}/#{file}"
+    stat = fs.statSync filePath
+    if stat.isDirectory()
+      findLayouts filePath
+    else
+      if file[0] is "_" and file.split(".")[1] is "hbs"
+        layouts.push filePath
+findLayouts env.viewsHome
+layouts.forEach (file) ->
+  t = fs.readFileSync file
+  name = file[(env.viewsHome.length + 1)..].split(".")[0]
+  handlebars.registerPartial name, handlebars.compile(t.toString())
 
 getRealPath = (path) ->
   "#{env.viewsHome}/#{path}.hbs"
