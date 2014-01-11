@@ -1,7 +1,5 @@
 handlebars = require "handlebars"
-http = require "http"
-
-asyncRender = require "./async_render"
+async = require "./async"
 
 blocks = {}
 
@@ -12,6 +10,10 @@ handlebars.registerHelper "partial", (name, options) ->
   undefined
 
 handlebars.registerHelper "block", (name, options) ->
-  content = (blocks[name] or []).join("\n")
-  blocks[name] = []
-  content
+  block = blocks[name] or []
+  if block.length is 0
+    if options.fn then options.fn(@) else ""
+  else
+    content = block.join("\n")
+    blocks[name] = []
+    content
