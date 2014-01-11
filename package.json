@@ -1,0 +1,15 @@
+{
+  "name": "Jigglypuff",
+  "description": "Fake Aixforce web container",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "express": "3.x",
+    "redis": "*",
+    "handlebars": "~1.3.0"
+  },
+  "devDependencies": {
+    "mocha": "*",
+    "should": "~2.1.1"
+  }
+}
