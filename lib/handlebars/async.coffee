@@ -26,7 +26,13 @@ class Async
     @callback = cb
     cb() if @resolved
 
-  # this method must be called immediately once a template rendered
+  ###
+  This method should be called immediately once a template rendered.
+  By follow this principle, it can reset the async instance before next instance created.
+
+  use like this:
+    Async.do template(), (result) -> console.log result
+  ###
   @do: (result, cb) ->
     if async is undefined
       cb(result)

@@ -1,4 +1,3 @@
-env = require "../enviroments"
 fs = require "fs"
 handlebars = require "handlebars"
 utils = require "../utils"
@@ -7,23 +6,25 @@ pathCache = {}
 textCache = {}
 blankTemplate = handlebars.compile ""
 
-getRealPath = (path) ->
-  "#{env.views_home}/#{path}.hbs"
-
 module.exports =
   # async
   fromPath: (path, callback) ->
-    realPath = getRealPath(path)
-    if t = pathCache[realPath]
+    if t = pathCache[path]
       callback(t)
       return
-    fs.readFile realPath, (err, data) ->
+    fs.readFile path, (err, data) ->
       if err
-        console.error("open file #{realPath} error", err)
+        console.error("open file #{path} error", err)
         callback(blankTemplate)
       else
-        pathCache[realPath] = t = handlebars.compile(data.toString())
+        pathCache[path] = t = handlebars.compile(data.toString())
         callback(t)
+  # sync
+  fromPathSync: (path) ->
+    if t = pathCache[path]
+      return t
+    pathCache[path] = t = handlebars.compile(fs.readFileSync(path).toString())
+    t
   # sync
   fromText: (text) ->
     md5 = utils.md5(text)
