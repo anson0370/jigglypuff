@@ -15,23 +15,44 @@ describe "template_loader", ->
         template.should.be.an.instanceOf(Function)
         done()
 
-describe "async", ->
-  it "should support async helper", (done) ->
+describe.only "async", ->
+  before ->
     async.registerAsyncHelper "asyncTest", (param1, param2, options, resolve) ->
-      param1.should.be.equal("param1")
+      param1.should.be.a.Boolean
       param2.should.be.a.Number
-      setTimeout ->
+      if param1
+        setTimeout ->
+          if param2 is 1
+            resolve("ok")
+          else
+            resolve("thanks")
+        , 10
+      else
         if param2 is 1
           resolve("ok")
         else
           resolve("thanks")
-      , 10
-    template = handlebars.compile("it's {{asyncTest \"param1\" 1}} {{asyncTest \"param1\" 2}}")
-    async.do template(), (result) ->
+
+  it "should support async helper", (done) ->
+    template = handlebars.compile("it's {{asyncTest true 1}} {{asyncTest true 2}}")
+    async.done template(), (result) ->
       result.should.be.equal("it's ok thanks")
       done()
 
-describe.only "render", ->
+  it "should work correctly when async helper return synced", ->
+    template = handlebars.compile("it's {{asyncTest false 1}} {{asyncTest false 2}}")
+    result = template()
+    result.should.be.equal("it's ok thanks")
+    async.done result, (result) ->
+      result.should.be.equal("it's ok thanks")
+
+  it "should work correctly when async helper mixed with async and sync return", (done) ->
+    template = handlebars.compile("it's {{asyncTest false 1}} {{asyncTest false 2}}")
+    async.done template(), (result) ->
+      result.should.be.equal("it's ok thanks")
+      done()
+
+describe "render", ->
   it "should register layout correctly", ->
     handlebars.partials["_layout"].should.be.ok
     handlebars.partials["sub_dir/_layout"].should.be.ok

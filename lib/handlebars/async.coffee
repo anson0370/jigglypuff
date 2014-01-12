@@ -15,16 +15,25 @@ class Async
 
   deferred: ->
     ++@count
+    @resolved = false
+    @
 
   resolve: (id, value) ->
     @values[id] = value
     if --@count is 0
       @resolved = true
       @callback?()
+    @
+
+  synced: (id) ->
+    value = @values[id]
+    delete @values[id]
+    value
 
   done: (cb) ->
     @callback = cb
-    cb() if @resolved
+    @callback() if @resolved
+    @
 
   ###
   This method should be called immediately once a template rendered.
@@ -33,14 +42,16 @@ class Async
   use like this:
     Async.do template(), (result) -> console.log result
   ###
-  @do: (result, cb) ->
+  @done: (result, cb) ->
     if async is undefined
       cb(result)
     else
       async.done ->
         vals = @values
-        Object.keys(vals).forEach (id) ->
-          result = result.replace id, vals[id].toString()
+        keys = Object.keys(vals)
+        if keys.length > 0
+          keys.forEach (id) ->
+            result = result.replace id, vals[id].toString()
         cb(result)
 
     # reset for next template
@@ -55,11 +66,15 @@ class Async
     [].push.call args, (result) ->
       curAsync.resolve id, result
 
-    fn.apply context, args
-    id
+    res = fn.apply context, args
+    # if return synced, return helper render result directly
+    if res instanceof Async
+      res.synced id
+    else
+      id
 
 module.exports =
-  do: Async.do
+  done: Async.done
   registerAsyncHelper: (name, fn) ->
     handlebars.registerHelper name, ->
       Async.resolve fn, @, arguments
