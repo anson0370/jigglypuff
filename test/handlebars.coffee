@@ -58,6 +58,20 @@ describe "async", ->
       result.should.be.equal("it's ok thanks")
       done()
 
+  it "should work correctly when render multiple template", (done) ->
+    template1 = handlebars.compile("it's {{asyncTest false 1}} {{asyncTest false 2}}")
+    template2 = handlebars.compile("it's {{asyncTest false 2}} {{asyncTest false 1}}")
+    t1done = false
+    t2done = false
+    async.done template1(), (result) ->
+      result.should.be.equal("it's ok thanks")
+      t1done = true
+      done() if t2done
+    async.done template2(), (result) ->
+      result.should.be.equal("it's thanks ok")
+      t2done = true
+      done() if t1done
+
 describe "render", ->
   it "should register layout correctly", ->
     handlebars.partials["_layout"].should.be.ok
