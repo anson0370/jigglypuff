@@ -11,11 +11,11 @@ handlebars = require "handlebars"
 describe "template_loader", ->
   describe "#fromPath", ->
     it "should get template from file", (done) ->
-      templateLoader.fromPath "layout", (template) ->
+      templateLoader.fromPath "#{env.viewsHome}/template.hbs", (template) ->
         template.should.be.an.instanceOf(Function)
         done()
 
-describe.only "async", ->
+describe "async", ->
   before ->
     async.registerAsyncHelper "asyncTest", (param1, param2, options, resolve) ->
       param1.should.be.a.Boolean
@@ -36,6 +36,12 @@ describe.only "async", ->
   it "should support async helper", (done) ->
     template = handlebars.compile("it's {{asyncTest true 1}} {{asyncTest true 2}}")
     async.done template(), (result) ->
+      result.should.be.equal("it's ok thanks")
+      done()
+
+  it "async helper should get the correctly 'this'", (done) ->
+    template = handlebars.compile("it's {{asyncTest true a}} {{asyncTest true b}}")
+    async.done template({a: 1, b: 2}), (result) ->
       result.should.be.equal("it's ok thanks")
       done()
 

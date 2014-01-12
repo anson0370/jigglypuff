@@ -38,7 +38,7 @@ module.exports =
       (next) ->
         templateLoader.fromPath realPath, next
       (template, next) ->
-        async.do template(context), next
+        async.done template(context), next
       (result) ->
         cb(result)
     ]
