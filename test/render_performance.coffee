@@ -7,9 +7,10 @@ childProcess = require "child_process"
 
 http.globalAgent.maxSockets = 150
 
-loopCount = 1000
+loopCount = 10000
 port = 8081
 
+# start a fake server in forked child process
 if process.argv[2] is "fake_server"
   server = http.createServer (req, res) ->
     setTimeout ->
@@ -19,12 +20,14 @@ if process.argv[2] is "fake_server"
   server.listen port
   server.on "listening", ->
     process.send {event: "listening"}
+  # listen message to stop server and exit self
   process.on "message", (m) ->
     switch m.event
       when "stop"
         server.close ->
           process.exit()
 else
+  # fork a child process first
   fakeServerProcess = childProcess.fork module.filename, ["fake_server"]
   async.registerAsyncHelper "httpCall", (path, resolve) ->
     http.get {host: "localhost", port: port, path: "/"}, (res) ->
@@ -34,6 +37,7 @@ else
       res.on 'end', ->
         resolve data
 
+  # start the test when child process ready
   fakeServerProcess.on "message", (m) ->
     switch m.event
       when "listening"
