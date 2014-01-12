@@ -42,3 +42,10 @@ module.exports =
       (result) ->
         cb(result)
     ]
+
+  renderInline: (templateStr, context, cb) ->
+    if cb is undefined and typeof context is "function"
+      cb = context
+      context = {}
+    template = templateLoader.fromText(templateStr)
+    async.done template(context), cb

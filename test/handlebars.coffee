@@ -96,3 +96,14 @@ describe "render", ->
       render.renderFile "sub_dir/partial", (result) ->
         result.trim().should.be.equal("it's ok, thanks")
         done()
+
+  describe "#renderInline()", ->
+    it "should render inline template correctly", (done) ->
+      render.renderInline "it's {{ok}}, {{thanks}}", {ok: "ok", thanks: "thanks"}, (result) ->
+        result.trim().should.be.equal("it's ok, thanks")
+        done()
+
+    it "can ignore second argument", (done) ->
+      render.renderInline "it's ok, thanks", (result) ->
+        result.trim().should.be.equal("it's ok, thanks")
+        done()
