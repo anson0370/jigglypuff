@@ -1,15 +1,14 @@
-# set views home to test views
-fs = require "fs"
-env = require "../lib/enviroments"
-env.viewsHome = "#{__dirname}/views"
+# set node env to test first
+process.env.NODE_ENV = "test"
 
+env = require "../lib/enviroments"
 templateLoader = require "../lib/handlebars/template_loader"
 async = require "../lib/handlebars/async"
 render = require "../lib/handlebars/render"
 handlebars = require "handlebars"
 
 describe "template_loader", ->
-  describe "#fromPath", ->
+  describe "#fromPath()", ->
     it "should get template from file", (done) ->
       templateLoader.fromPath "#{env.viewsHome}/template.hbs", (template) ->
         template.should.be.an.instanceOf(Function)
