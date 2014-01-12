@@ -52,13 +52,13 @@ describe "async", ->
     async.done result, (result) ->
       result.should.be.equal("it's ok thanks")
 
-  it "should work correctly when async helper mixed with async and sync return", (done) ->
+  it "should work correctly when async helpers mixed with async and sync return", (done) ->
     template = handlebars.compile("it's {{asyncTest false 1}} {{asyncTest false 2}}")
     async.done template(), (result) ->
       result.should.be.equal("it's ok thanks")
       done()
 
-  it "should work correctly when render multiple template", (done) ->
+  it "should work correctly when render multiple templates", (done) ->
     template1 = handlebars.compile("it's {{asyncTest false 1}} {{asyncTest false 2}}")
     template2 = handlebars.compile("it's {{asyncTest false 2}} {{asyncTest false 1}}")
     t1done = false

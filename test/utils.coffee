@@ -6,7 +6,7 @@ describe "utils", ->
       utils.homePath().should.be.equal "/Users/anson"
 
   describe "#syncLike()", ->
-    it "should run async function sequenced", (done) ->
+    it "should run async function just like sync", (done) ->
       r = []
       utils.syncLike [
         (next) ->
