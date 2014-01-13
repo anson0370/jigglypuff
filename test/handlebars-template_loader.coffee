@@ -1,6 +1,3 @@
-# set node env to test first
-process.env.NODE_ENV = "test"
-
 env = require "../src/enviroments"
 templateLoader = require "../src/handlebars/template_loader"
 should = require "should"

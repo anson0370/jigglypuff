@@ -31,16 +31,19 @@ All options has default value below:
       "componentsHome": "public/components"
     }
 
-The config file (`jiggly.json`) can include multiple option groups. The group which will be loaded depend on env variable `NODE_ENV`.
+The config file (`jiggly.json`) can include multiple option groups. Depend on env variable `NODE_ENV`, one group will be loaded.
 
 ex:
 
     {
-      "dev": {
-        "serverPort": 8081
-      },
-      "prod": {
-        "serverPort": 80
+      filesHome: "public",
+      "env": {
+        "dev": {
+          "serverPort": 8081
+        },
+        "prod": {
+          "serverPort": 80
+        }
       }
     }
 

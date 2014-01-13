@@ -1,6 +1,3 @@
-# set node env to test first
-process.env.NODE_ENV = "test"
-
 render = require "../src/handlebars/render"
 handlebars = require "handlebars"
 should = require "should"

@@ -1,7 +1,9 @@
 {
-  "test": {
-    "filesHome": "files",
-    "viewsHome": "views",
-    "componentsHome": "components"
+  "filesHome": "files",
+  "viewsHome": "views",
+  "env": {
+    "dev": {
+      "componentsHome": "components"
+    }
   }
 }
