@@ -1,6 +1,7 @@
-# require module render to init render enviroment
-render = require "./handlebars/render"
+# require env to init all config
 env = require "./enviroments"
+# require render to init render enviroment
+render = require "./handlebars/render"
 express = require "express"
 
 app = express()

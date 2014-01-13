@@ -7,9 +7,9 @@ env = process.env.NODE_ENV or "dev"
 config =
   useless: "wtf"
   serverPort: 8080
-  filesHome: "./public"
-  viewsHome: "./public/views"
-  componentsHome: "./public/components"
+  filesHome: "public"
+  viewsHome: "public/views"
+  componentsHome: "public/components"
 
 cwdPath = process.cwd()
 configFile = path.resolve cwdPath, "jiggly.json"
