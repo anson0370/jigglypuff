@@ -10,7 +10,7 @@ module.exports =
   # async
   fromPath: (path, callback) ->
     if t = pathCache[path]
-      callback(t)
+      callback(undefined, t)
       return
     fs.readFile path, (err, data) ->
       if err
