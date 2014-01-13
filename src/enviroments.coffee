@@ -5,7 +5,6 @@ _ = require "lodash"
 env = process.env.NODE_ENV or "dev"
 
 config =
-  useless: "wtf"
   serverPort: 8080
   filesHome: "public"
   viewsHome: "public/views"

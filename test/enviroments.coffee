@@ -5,7 +5,7 @@ env = require "../src/enviroments"
 
 describe "enviroments", ->
   it "should provid default settings", ->
-    env.useless.should.be.equal("wtf")
+    env.serverPort.should.be.equal(8080)
 
   it "should override default settings when jiggly.json exists", ->
-    env.serverPort.should.be.equal(8081)
+    env.filesHome.should.be.equal("#{__dirname}/files")

@@ -1,0 +1,7 @@
+{
+  "test": {
+    "filesHome": "files",
+    "viewsHome": "views",
+    "componentsHome": "components"
+  }
+}
