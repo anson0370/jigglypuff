@@ -58,10 +58,12 @@ renderFromRealPath = (path, context, cb) ->
   utils.syncLike [
     (next) ->
       templateLoader.fromPath path, next
-    (template, next) ->
-      async.do template, context, next
-    (result) ->
-      cb(result)
+    (err, template) ->
+      if err
+        console.error "fail to get template with path: #{path}"
+        cb(undefined, "")
+      else
+        async.do template, context, cb
   ]
 
 module.exports =

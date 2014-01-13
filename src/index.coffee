@@ -8,8 +8,11 @@ app = express()
 
 app.get /^([^\.]+)$/, (req, res) ->
   path = req.params[0]
-  render.renderFile path, req.query, (result) ->
-    res.send result
+  render.renderFile path, req.query, (err, result) ->
+    if err
+      res.send 500, {error: "render failed: \n#{err}"}
+    else
+      res.send result
 
 app.get /^(.+)$/, (req, res) ->
   path = req.params[0]

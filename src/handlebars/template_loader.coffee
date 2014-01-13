@@ -15,16 +15,10 @@ module.exports =
     fs.readFile path, (err, data) ->
       if err
         console.error("open file #{path} error", err)
-        callback(blankTemplate)
+        callback(err)
       else
         pathCache[path] = t = handlebars.compile(data.toString())
-        callback(t)
-  # sync
-  fromPathSync: (path) ->
-    if t = pathCache[path]
-      return t
-    pathCache[path] = t = handlebars.compile(fs.readFileSync(path).toString())
-    t
+        callback(undefined, t)
   # sync
   fromText: (text) ->
     md5 = utils.md5(text)

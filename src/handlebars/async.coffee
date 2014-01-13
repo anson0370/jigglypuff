@@ -36,16 +36,20 @@ class Async
       # shallow clone is enough
       content = _.clone content
       content[@KEY] = undefined
-    result = t(content)
+    try
+      result = t(content)
+    catch e
+      console.error "error when render template: #{t}"
+      cb(e)
     async = content[@KEY]
     if async is undefined
-      cb(result)
+      cb(undefined, result)
     else
       async.done ->
         vals = @values
         Object.keys(vals).forEach (id) ->
           result = result.replace id, vals[id].toString()
-        cb(result)
+        cb(undefined, result)
 
   @resolve: (fn, context, args) ->
     async = context[@KEY]
