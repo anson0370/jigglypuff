@@ -1,9 +1,6 @@
 handlebars = require "handlebars"
 _ = require "lodash"
 
-idCount = 0
-async = undefined
-
 class Async
   constructor: ->
     @values = {}
@@ -38,7 +35,7 @@ class Async
     if content[@KEY] isnt undefined
       # shallow clone is enough
       content = _.clone content
-      delete content[@KEY]
+      content[@KEY] = undefined
     result = t(content)
     async = content[@KEY]
     if async is undefined
@@ -52,12 +49,11 @@ class Async
 
   @resolve: (fn, context, args) ->
     async = context[@KEY]
-    context[@KEY] = async = new Async if async is undefined
-    curAsync = async
-    curAsync.deferred()
-    id = curAsync.genId()
+    async = context[@KEY] = new Async if async is undefined
+    async.deferred()
+    id = async.genId()
     [].push.call args, (result) ->
-      curAsync.resolve id, result
+      async.resolve id, result
 
     fn.apply context, args
     id
