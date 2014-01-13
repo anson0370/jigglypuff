@@ -1,7 +1,7 @@
 # set node env to test first
 process.env.NODE_ENV = "test"
 
-render = require "../lib/handlebars/render"
+render = require "../src/handlebars/render"
 handlebars = require "handlebars"
 
 describe "render", ->

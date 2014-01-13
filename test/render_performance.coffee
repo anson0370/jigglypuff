@@ -1,7 +1,7 @@
 return unless require.main is module
 
-render = require "../lib/handlebars/render"
-async = require "../lib/handlebars/async"
+render = require "../src/handlebars/render"
+async = require "../src/handlebars/async"
 http = require "http"
 childProcess = require "child_process"
 
