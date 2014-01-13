@@ -18,7 +18,7 @@
     "jiggly": "./bin/jiggly"
   },
   "scripts": {
-    "test": "mocha",
-    "compile": "rm -rf ./lib && coffee --compile --output lib/ src/"
+    "compile": "rm -rf ./lib && coffee --compile --output lib/ src/",
+    "test": "npm run-script compile && mocha"
   }
 }

@@ -1,4 +1,4 @@
-utils = require "../src/utils"
+utils = require "../lib/utils"
 
 describe "utils", ->
   describe "#homePath()", ->
