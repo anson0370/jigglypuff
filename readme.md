@@ -10,7 +10,8 @@
 2. write code with coffee in `src/` folder
 3. write test code with coffee in `test/` folder
 4. run `npm test`, make sure all tests passed
-5. push to git
+5. run `./build` to build
+6. commit and push to git
 
 ## usage
 

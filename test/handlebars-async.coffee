@@ -1,5 +1,5 @@
 handlebars = require "handlebars"
-async = require "../lib/handlebars/async"
+async = require "../src/handlebars/async"
 
 describe "async", ->
   before ->

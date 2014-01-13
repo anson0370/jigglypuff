@@ -1,8 +1,8 @@
 # set node env to test first
 process.env.NODE_ENV = "test"
 
-env = require "../lib/enviroments"
-templateLoader = require "../lib/handlebars/template_loader"
+env = require "../src/enviroments"
+templateLoader = require "../src/handlebars/template_loader"
 
 describe "template_loader", ->
   describe "#fromPath()", ->
