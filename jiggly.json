@@ -1,0 +1,8 @@
+{
+  "test": {
+    "serverPort": 8081,
+    "filesHome": "./test/files",
+    "viewsHome": "./test/views",
+    "componentsHome": "./test/components"
+  }
+}

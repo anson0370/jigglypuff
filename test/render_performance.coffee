@@ -19,6 +19,8 @@ if process.argv[2] is "fake_server"
 
   server.listen port
   server.on "listening", ->
+    console.log "fake server listening: #{port}"
+    console.log process.cwd()
     process.send {event: "listening"}
   # listen message to stop server and exit self
   process.on "message", (m) ->
