@@ -55,7 +55,7 @@ All unset options will use the default value.
 2. write code with coffee in `src/` folder
 3. write test code with coffee in `test/` folder
 4. run `npm test`, make sure all tests passed
-5. use `npm run-script compile` to compile coffee to js
+5. use `npm run compile` to compile coffee to js
 6. commit and push to git
 
-To compile and install the repo, use `npm run-script build`.
+To compile and install the repo, use `npm run build`.
