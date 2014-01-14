@@ -4,8 +4,14 @@ templateLoader = require "./template_loader"
 handlebars = require "handlebars"
 async = require "./async"
 utils = require "../utils"
-# register all helper first
+# register all helpers first
 require "./helpers"
+# register all extra helpers
+env.extraHelpers.forEach (helperPath) ->
+  try
+    require(helperPath)(handlebars)
+  catch e
+    console.error "error when load extra helper file: #{helperPath}", e
 
 ########################################################
 # helpers to support layout render

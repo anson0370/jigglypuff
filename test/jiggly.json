@@ -2,8 +2,12 @@
   "filesHome": "files",
   "viewsHome": "views",
   "env": {
-    "dev": {
-      "componentsHome": "components"
+    "test": {
+      "componentsHome": "components",
+      "extraHelpers": [
+        "helpers/custom_helpers.js",
+        "helpers/custom_helpers2.js"
+      ]
     }
   }
 }

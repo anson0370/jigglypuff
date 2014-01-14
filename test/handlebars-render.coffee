@@ -4,8 +4,13 @@ should = require "should"
 
 describe "render", ->
   it "should register layout correctly", ->
-    handlebars.partials["_layout"].should.be.ok
-    handlebars.partials["sub_dir/_layout"].should.be.ok
+    should.exist handlebars.partials["_layout"]
+    should.exist handlebars.partials["sub_dir/_layout"]
+
+  it "should register custom helpers correctly", ->
+    should.exist handlebars.helpers["customHelper1"]
+    should.exist handlebars.helpers["customHelper2"]
+    should.exist handlebars.helpers["customHelper3"]
 
   describe "#renderFile()", ->
     it "should render single view correctly", (done) ->

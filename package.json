@@ -20,7 +20,7 @@
   "scripts": {
     "compile": "rm -rf ./lib && coffee --compile --output lib/ src/",
     "build": "npm run compile && npm i -g .",
-    "test": "cd test && mocha **/*.coffee --compilers coffee:coffee-script --require should -R spec",
+    "test": "cd test && env NODE_ENV=test mocha **/*.coffee --compilers coffee:coffee-script --require should -R spec",
     "start": "coffee ./src/index.coffee"
   }
 }
