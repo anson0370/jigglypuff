@@ -2,7 +2,7 @@ render = require "../src/handlebars/render"
 handlebars = require "handlebars"
 should = require "should"
 
-describe "render", ->
+describe "handlebars/render", ->
   it "should register layout correctly", ->
     should.exist handlebars.partials["_layout"]
     should.exist handlebars.partials["sub_dir/_layout"]

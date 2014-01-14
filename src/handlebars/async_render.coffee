@@ -1,7 +1,7 @@
 handlebars = require "handlebars"
 _ = require "lodash"
 
-class Async
+class AsyncRender
   constructor: ->
     @values = {}
     @callback = undefined
@@ -41,29 +41,29 @@ class Async
     catch e
       console.error "error when render template: #{t}"
       cb(e)
-    async = content[@KEY]
-    if async is undefined
+    asyncRender = content[@KEY]
+    if asyncRender is undefined
       cb(undefined, result)
     else
-      async.done ->
+      asyncRender.done ->
         vals = @values
         Object.keys(vals).forEach (id) ->
           result = result.replace id, vals[id].toString()
         cb(undefined, result)
 
   @resolve: (fn, context, args) ->
-    async = context[@KEY]
-    async = context[@KEY] = new Async if async is undefined
-    async.deferred()
-    id = async.genId()
+    asyncRender = context[@KEY]
+    asyncRender = context[@KEY] = new AsyncRender if asyncRender is undefined
+    asyncRender.deferred()
+    id = asyncRender.genId()
     [].push.call args, (result) ->
-      async.resolve id, result
+      asyncRender.resolve id, result
 
     fn.apply context, args
     id
 
 module.exports =
-  do: Async.do.bind(Async)
+  do: AsyncRender.do.bind(AsyncRender)
   registerAsyncHelper: (name, fn) ->
     handlebars.registerHelper name, ->
-      Async.resolve fn, @, arguments
+      AsyncRender.resolve fn, @, arguments

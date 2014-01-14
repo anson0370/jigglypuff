@@ -2,8 +2,8 @@ fs = require "fs"
 env = require "../enviroments"
 templateLoader = require "./template_loader"
 handlebars = require "handlebars"
-async = require "./async"
-utils = require "../utils"
+asyncRender = require "./async_render"
+async = require "async"
 # register all helpers first
 require "./helpers"
 # register all extra helpers
@@ -61,16 +61,13 @@ renderFromRealPath = (path, context, cb) ->
   if cb is undefined and typeof context is "function"
     cb = context
     context = {}
-  utils.syncLike [
+  async.waterfall [
     (next) ->
       templateLoader.fromPath path, next
-    (err, template) ->
-      if err
-        console.error "fail to get template with path: #{path}"
-        cb(undefined, "")
-      else
-        async.do template, context, cb
-  ]
+    (template, next) ->
+      asyncRender.do template, context, next
+  ], cb
+
 
 module.exports =
   renderFile: (path, context, cb) ->
@@ -84,7 +81,7 @@ module.exports =
       cb = context
       context = {}
     template = templateLoader.fromText(templateStr)
-    async.do template, context, cb
+    asyncRender.do template, context, cb
 
 # cause render helpers need the render module, so require (init) them after module exports
 require "./render_helpers"

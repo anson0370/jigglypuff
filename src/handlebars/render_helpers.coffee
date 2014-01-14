@@ -1,5 +1,5 @@
 render = require "./render"
-async = require "./async"
+asyncRender = require "./async_render"
 
-async.registerAsyncHelper "inject", (path, options, resolve) ->
+asyncRender.registerAsyncHelper "inject", (path, options, resolve) ->
   render.renderComponent path, @, resolve

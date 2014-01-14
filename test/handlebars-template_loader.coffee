@@ -2,7 +2,7 @@ env = require "../src/enviroments"
 templateLoader = require "../src/handlebars/template_loader"
 should = require "should"
 
-describe "template_loader", ->
+describe "handlebars/template_loader", ->
   describe "#fromPath()", ->
     it "should get template from file", (done) ->
       templateLoader.fromPath "#{env.viewsHome}/template.hbs", (err, template) ->
