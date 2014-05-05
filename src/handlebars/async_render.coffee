@@ -38,6 +38,7 @@ class AsyncRender
       content[@KEY] = undefined
     try
       result = t(content)
+      console.log result
     catch e
       cb(e)
       return

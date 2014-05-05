@@ -32,34 +32,26 @@ handlebars.registerHelper "block", (name, options) ->
     content = block.join("\n")
     blocks[name] = []
     content
-########################################################
-# register all layout as partial
-layouts = []
-findLayouts = (dir) ->
-  files = fs.readdirSync(dir)
-  files.forEach (file) ->
-    filePath = "#{dir}/#{file}"
-    stat = fs.statSync filePath
-    if stat.isDirectory()
-      findLayouts filePath
-    else
-      if file[0] is "_" and file.split(".")[1] is "hbs"
-        layouts.push filePath
-findLayouts env.viewsHome
-layouts.forEach (file) ->
-  t = fs.readFileSync file
-  name = file[(env.viewsHome.length + 1)..].split(".")[0]
-  handlebars.registerPartial name, handlebars.compile(t.toString())
-  console.log "register layout: [#{name}]"
-########################################################
-# register all given partials
-_.forEach env.partials, (file, name) ->
-  filePath = "#{env.viewsHome}/#{file}"
-  return unless fs.existsSync filePath
-  t = fs.readFileSync filePath
-  handlebars.registerPartial name, handlebars.compile(t.toString())
-  console.log "register partial: [#{name}]"
-########################################################
+
+registerLayout = ->
+  # register all layout as partial
+  layouts = []
+  findLayouts = (dir) ->
+    files = fs.readdirSync(dir)
+    files.forEach (file) ->
+      filePath = "#{dir}/#{file}"
+      stat = fs.statSync filePath
+      if stat.isDirectory()
+        findLayouts filePath
+      else
+        if /layout\.hbs$/.test file
+          layouts.push filePath
+  findLayouts env.viewsHome
+  layouts.forEach (file) ->
+    t = fs.readFileSync file
+    name = file[(env.viewsHome.length + 1)..].split(".")[0]
+    name = "views/#{name}" if env.oldMode
+    handlebars.registerPartial name, handlebars.compile(t.toString())
 
 getRealPath = (path) ->
   "#{env.viewsHome}/#{path}.hbs"
@@ -92,6 +84,8 @@ module.exports =
       context = {}
     template = templateLoader.fromText(templateStr)
     asyncRender.do template, context, cb
+
+  registerLayout: registerLayout
 
 # cause render helpers need the render module, so require (init) them after module exports
 require "./render_helpers"

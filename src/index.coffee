@@ -8,6 +8,7 @@ app = express()
 
 # render file to html when no dot in path
 app.get /^([^\.]+)$/, (req, res) ->
+  render.registerLayout()
   path = req.params[0]
   render.renderFile path, req.query, (err, result) ->
     if err
