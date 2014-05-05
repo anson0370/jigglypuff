@@ -8,8 +8,8 @@ env = process.env.NODE_ENV or "dev"
 config =
   serverPort: 8080
   filesHome: "public"
-  viewsHome: "public/views"
-  componentsHome: "public/components"
+  viewsHome: undefined
+  componentsHome: undefined
   extraHelpers: []
   oldMode: false
 
@@ -24,8 +24,14 @@ if fs.existsSync configFile
 
 # resolve all relative path to absolute path
 config.filesHome = path.resolve cwdPath, config.filesHome
-config.viewsHome = path.resolve cwdPath, config.viewsHome
-config.componentsHome = path.resolve cwdPath, config.componentsHome
+if config.viewsHome
+  config.viewsHome = path.resolve cwdPath, config.viewsHome
+else
+  config.viewsHome = path.resolve cwdPath, config.filesHome, "views"
+if config.componentsHome
+  config.componentsHome = path.resolve cwdPath, config.componentsHome
+else
+  config.componentsHome = path.resolve cwdPath, config.filesHome, "components"
 config.extraHelpers = _.map config.extraHelpers, (helperFile) ->
   path.resolve cwdPath, helperFile
 
