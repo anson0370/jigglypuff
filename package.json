@@ -1,8 +1,10 @@
 {
   "name": "jigglypuff",
   "description": "Fake terminus pampas web container",
+  "author": {
+    "name": "Anson Chan"
+  },
   "version": "0.0.1",
-  "private": true,
   "dependencies": {
     "express": "~3",
     "handlebars": "~1.3.0",
