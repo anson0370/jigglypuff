@@ -6,6 +6,7 @@ express = require "express"
 
 app = express()
 
+# render file to html when no dot in path
 app.get /^([^\.]+)$/, (req, res) ->
   path = req.params[0]
   render.renderFile path, req.query, (err, result) ->
@@ -14,6 +15,7 @@ app.get /^([^\.]+)$/, (req, res) ->
     else
       res.send result
 
+# send file direct when dot in path
 app.get /^(.+)$/, (req, res) ->
   path = req.params[0]
   res.sendfile "#{env.filesHome}#{path}"
