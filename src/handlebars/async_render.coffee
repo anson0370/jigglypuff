@@ -39,8 +39,8 @@ class AsyncRender
     try
       result = t(content)
     catch e
-      console.error "error when render template: #{t}"
       cb(e)
+      return
     asyncRender = content[@KEY]
     if asyncRender is undefined
       cb(undefined, result)
@@ -58,7 +58,7 @@ class AsyncRender
     id = asyncRender.genId()
     [].push.call args, (err, result) ->
       if err
-        console.error "error when render async helper: #{err}"
+        console.error "error when resolve async helper: #{err}"
         asyncRender.resolve id, ""
       else
         asyncRender.resolve id, result
