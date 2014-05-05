@@ -10,14 +10,14 @@ describe "handlebars/async_render", ->
       if param1
         process.nextTick ->
           if param2 is 1
-            resolve("ok")
+            resolve(undefined, "ok")
           else
-            resolve("thanks")
+            resolve(undefined, "thanks")
       else
         if param2 is 1
-          resolve("ok")
+          resolve(undefined, "ok")
         else
-          resolve("thanks")
+          resolve(undefined, "thanks")
 
     asyncRender.registerAsyncHelper "asyncInAsync", (param1, options, resolve) ->
       template = handlebars.compile("{{ok}}")
@@ -25,7 +25,7 @@ describe "handlebars/async_render", ->
       process.nextTick ->
         asyncRender.do template, content, (err, result) ->
           should.not.exist err
-          resolve(result)
+          resolve(undefined, result)
 
   it "should support async helper", (done) ->
     template = handlebars.compile("it's {{asyncTest true 1}} {{asyncTest true 2}}")

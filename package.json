@@ -1,6 +1,6 @@
 {
   "name": "jigglypuff",
-  "description": "Fake Aixforce web container",
+  "description": "Fake terminus pampas web container",
   "version": "0.0.1",
   "private": true,
   "dependencies": {
