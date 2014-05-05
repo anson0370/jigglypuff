@@ -11,6 +11,7 @@ config =
   viewsHome: "public/views"
   componentsHome: "public/components"
   extraHelpers: []
+  partials: {}
 
 cwdPath = process.cwd()
 configFile = path.resolve cwdPath, "jiggly.json"

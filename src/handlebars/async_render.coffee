@@ -56,8 +56,12 @@ class AsyncRender
     asyncRender = context[@KEY] = new AsyncRender if asyncRender is undefined
     asyncRender.deferred()
     id = asyncRender.genId()
-    [].push.call args, (result) ->
-      asyncRender.resolve id, result
+    [].push.call args, (err, result) ->
+      if err
+        console.error "error when render async helper: #{err}"
+        asyncRender.resolve id, ""
+      else
+        asyncRender.resolve id, result
 
     fn.apply context, args
     id

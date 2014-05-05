@@ -1,3 +1,4 @@
+_ = require "lodash"
 fs = require "fs"
 env = require "../enviroments"
 templateLoader = require "./template_loader"
@@ -49,6 +50,15 @@ layouts.forEach (file) ->
   t = fs.readFileSync file
   name = file[(env.viewsHome.length + 1)..].split(".")[0]
   handlebars.registerPartial name, handlebars.compile(t.toString())
+  console.log "register layout: [#{name}]"
+########################################################
+# register all given partials
+_.forEach env.partials, (file, name) ->
+  filePath = "#{env.viewsHome}/#{file}"
+  return unless fs.existsSync filePath
+  t = fs.readFileSync filePath
+  handlebars.registerPartial name, handlebars.compile(t.toString())
+  console.log "register partial: [#{name}]"
 ########################################################
 
 getRealPath = (path) ->
