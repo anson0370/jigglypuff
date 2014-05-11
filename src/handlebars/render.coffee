@@ -3,8 +3,6 @@ fs = require "fs"
 env = require "../enviroments"
 templateLoader = require "./template_loader"
 handlebars = require "handlebars"
-asyncRender = require "./async_render"
-async = require "async"
 # register all helpers first
 require "./helpers"
 # register all extra helpers
@@ -59,35 +57,18 @@ getRealPath = (path) ->
 getComponentViewPath = (path) ->
   "#{env.componentsHome}/#{path}/view.hbs"
 
-renderFromRealPath = (path, context, cb) ->
-  async.waterfall [
-    (next) ->
-      templateLoader.fromPath path, next
-    (template, next) ->
-      asyncRender.do template, context, next
-  ], cb
-
+renderFromRealPath = (path, context) ->
+  template = templateLoader.fromPathSync path
+  template(context)
 
 module.exports =
-  renderFile: (path, context, cb) ->
-    if cb is undefined and typeof context is "function"
-      cb = context
-      context = {}
-    renderFromRealPath getRealPath(path), context, cb
+  renderFile: (path, context) ->
+    renderFromRealPath getRealPath(path), context
 
-  renderComponent: (path, context, cb) ->
-    if cb is undefined and typeof context is "function"
-      cb = context
-      context = {}
+  renderComponent: (path, context) ->
+    context = context or {}
     context[@CONST.COMP_PATH] = path # add COMP_PATH to context
-    renderFromRealPath getComponentViewPath(path), context, cb
-
-  renderInline: (templateStr, context, cb) ->
-    if cb is undefined and typeof context is "function"
-      cb = context
-      context = {}
-    template = templateLoader.fromText(templateStr)
-    asyncRender.do template, context, cb
+    renderFromRealPath getComponentViewPath(path), context
 
   registerLayout: registerLayout
 

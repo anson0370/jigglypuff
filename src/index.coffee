@@ -10,11 +10,8 @@ app = express()
 app.get /^([^\.]+)$/, (req, res) ->
   render.registerLayout()
   path = req.params[0]
-  render.renderFile path, req.query, (err, result) ->
-    if err
-      res.send 500, {error: "render failed: \n#{err}"}
-    else
-      res.send result
+  result = render.renderFile path, req.query
+  res.send result
 
 # send file direct when dot in path
 app.get /^(.+)$/, (req, res) ->

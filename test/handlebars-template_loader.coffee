@@ -3,15 +3,7 @@ templateLoader = require "../src/handlebars/template_loader"
 should = require "should"
 
 describe "handlebars/template_loader", ->
-  describe "#fromPath()", ->
-    it "should get template from file", (done) ->
-      templateLoader.fromPath "#{env.viewsHome}/template.hbs", (err, template) ->
-        should.not.exist err
-        template.should.be.an.instanceOf(Function)
-        done()
-
-    it "should callback with err when file not exist", (done) ->
-      templateLoader.fromPath "#{env.viewsHome}/not_exist.hbs", (err, template) ->
-        should.exist err
-        should.not.exist template
-        done()
+  describe "#fromPathSync()", ->
+    it "should get template from file", ->
+      template = templateLoader.fromPathSync "#{env.viewsHome}/template.hbs"
+      template.should.be.an.instanceOf(Function)
