@@ -6,4 +6,4 @@ asyncRender.registerAsyncHelper "inject", (path) ->
   render.renderComponent path, @, arguments[arguments.length - 1]
 
 handlebars.registerHelper "component", (className, options) ->
-  new handlebars.SafeString("<div class=\"#{className}\">#{options.fn()}</div>")
+  new handlebars.SafeString("<div class=\"#{className}\" data-comp-path=\"#{@[render.CONST.COMP_PATH]}\">#{options.fn()}</div>")

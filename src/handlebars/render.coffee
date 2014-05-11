@@ -60,9 +60,6 @@ getComponentViewPath = (path) ->
   "#{env.componentsHome}/#{path}/view.hbs"
 
 renderFromRealPath = (path, context, cb) ->
-  if cb is undefined and typeof context is "function"
-    cb = context
-    context = {}
   async.waterfall [
     (next) ->
       templateLoader.fromPath path, next
@@ -73,9 +70,16 @@ renderFromRealPath = (path, context, cb) ->
 
 module.exports =
   renderFile: (path, context, cb) ->
+    if cb is undefined and typeof context is "function"
+      cb = context
+      context = {}
     renderFromRealPath getRealPath(path), context, cb
 
   renderComponent: (path, context, cb) ->
+    if cb is undefined and typeof context is "function"
+      cb = context
+      context = {}
+    context[@CONST.COMP_PATH] = path # add COMP_PATH to context
     renderFromRealPath getComponentViewPath(path), context, cb
 
   renderInline: (templateStr, context, cb) ->
@@ -86,6 +90,9 @@ module.exports =
     asyncRender.do template, context, cb
 
   registerLayout: registerLayout
+
+  CONST:
+    COMP_PATH: "COMP_PATH"
 
 # cause render helpers need the render module, so require (init) them after module exports
 require "./render_helpers"
