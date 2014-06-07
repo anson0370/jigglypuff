@@ -26,3 +26,11 @@ handlebars.registerHelper "mod", (a, b, options) ->
 
 handlebars.registerHelper "pp", (options) ->
   JSON.stringify @
+
+handlebars.registerHelper "size", (a, options) ->
+  return 0 if a is undefined
+  if a.length
+    return if _.isFunction(a.length) then a.length() else a.length
+  if a.size
+    return if _.isFunction(a.size) then a.size() else a.size
+  0
