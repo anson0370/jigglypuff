@@ -23,7 +23,8 @@
   },
   "scripts": {
     "compile": "rm -rf ./lib && coffee --compile --output lib/ src/",
-    "build": "npm run compile && npm i -g .",
+    "prepublish": "npm run compile",
+    "build": "npm i -g .",
     "debug": "npm run compile && node --debug-brk ./lib/index.js",
     "test": "cd test && env NODE_ENV=test mocha **/*.coffee --compilers coffee:coffee-script --require should -R spec",
     "start": "coffee ./src/index.coffee"
