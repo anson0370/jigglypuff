@@ -6,6 +6,12 @@ handlebars.registerHelper "equals", (a, b, options) ->
   else
     options.inverse @
 
+handlebars.registerHelper "gt", (a, b, options) ->
+  if parseFloat(a) > parseFloat(b)
+    options.fn @
+  else
+    options.inverse @
+
 handlebars.registerHelper "and", (a, b, options) ->
   if a? and b?
     options.fn @
