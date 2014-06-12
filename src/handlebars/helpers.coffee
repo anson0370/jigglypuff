@@ -1,5 +1,8 @@
 handlebars = require "handlebars"
 
+handlebars.registerHelper "helperMissing", ->
+  "missing helper"
+
 handlebars.registerHelper "equals", (a, b, options) ->
   if a?.toString() == b?.toString()
     options.fn @
