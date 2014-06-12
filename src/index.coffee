@@ -1,3 +1,4 @@
+fs = require "fs"
 # require env to init all config
 env = require "./enviroments"
 # require render to init render enviroment
@@ -16,7 +17,12 @@ app.get /^([^\.]+)$/, (req, res) ->
 # send file direct when dot in path
 app.get /^(.+)$/, (req, res) ->
   path = req.params[0]
-  res.sendfile "#{env.filesHome}#{path}"
+  realPath = "#{env.filesHome}#{path}"
+  if fs.existsSync realPath
+    res.sendfile realPath
+  else
+    console.log "[Resource Not Found] #{realPath}"
+    res.status(404)
 
 app.listen env.serverPort
 console.log "server listening at port: #{env.serverPort}"

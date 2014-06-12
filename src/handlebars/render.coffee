@@ -3,6 +3,7 @@ fs = require "fs"
 env = require "../enviroments"
 templateLoader = require "./template_loader"
 handlebars = require "handlebars"
+{FileNotFoundError} = require "../errors"
 # register all helpers first
 require "./helpers"
 # register all extra helpers
@@ -51,11 +52,14 @@ registerLayout = ->
     name = "views/#{name}" if env.oldMode
     handlebars.registerPartial name, handlebars.compile(t.toString())
 
+normalizePath = (path) ->
+  if path[0] is "/" then path[1..] else path
+
 getRealPath = (path) ->
-  "#{env.viewsHome}/#{path}.hbs"
+  "#{env.viewsHome}/#{normalizePath(path)}.hbs"
 
 getComponentViewPath = (path) ->
-  "#{env.componentsHome}/#{path}/view.hbs"
+  "#{env.componentsHome}/#{normalizePath(path)}/view.hbs"
 
 renderFromRealPath = (path, context) ->
   template = templateLoader.fromPathSync path
@@ -63,12 +67,26 @@ renderFromRealPath = (path, context) ->
 
 module.exports =
   renderFile: (path, context) ->
-    renderFromRealPath getRealPath(path), context
+    try
+      renderFromRealPath getRealPath(path), context
+    catch err
+      if err instanceof FileNotFoundError
+        console.log "[View Not Found] #{err.path}"
+        "404 view not found: #{err.path}"
+      else
+        throw err
 
   renderComponent: (path, context) ->
     context = context or {}
     context[@CONST.COMP_PATH] = path # add COMP_PATH to context
-    renderFromRealPath getComponentViewPath(path), context
+    try
+      renderFromRealPath getComponentViewPath(path), context
+    catch err
+      if err instanceof FileNotFoundError
+        console.log "[Component Not Found] #{err.path}"
+        "component view not found: #{err.path}"
+      else
+        throw err
 
   registerLayout: registerLayout
 
