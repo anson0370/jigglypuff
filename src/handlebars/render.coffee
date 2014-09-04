@@ -51,12 +51,13 @@ registerLayout = ->
     name = file[(env.viewsHome.length + 1)..].split(".")[0]
     name = "views/#{name}" if env.oldMode
     handlebars.registerPartial name, handlebars.compile(t.toString())
+    # console.log "[Layout Registered] #{name} - #{file}"
 
 normalizePath = (path) ->
   if path[0] is "/" then path[1..] else path
 
 getRealPath = (path) ->
-  "#{env.viewsHome}/#{normalizePath(path)}.hbs"
+  if env.pageMode then "#{env.viewsHome}/#{normalizePath(path)}/view.hbs" else "#{env.viewsHome}/#{normalizePath(path)}.hbs"
 
 getComponentViewPath = (path) ->
   "#{env.componentsHome}/#{normalizePath(path)}/view.hbs"

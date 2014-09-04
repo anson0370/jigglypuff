@@ -12,6 +12,7 @@ config =
   componentsHome: undefined
   extraHelpers: []
   oldMode: false
+  pageMode: false
 
 cwdPath = process.cwd()
 configFile = path.resolve cwdPath, "jiggly.json"

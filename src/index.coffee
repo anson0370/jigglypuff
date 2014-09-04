@@ -23,6 +23,7 @@ app.get /^(.+)$/, (req, res) ->
   else
     console.log "[Resource Not Found] #{realPath}"
     res.status(404)
+    res.send()
 
 app.listen env.serverPort
 console.log "server listening at port: #{env.serverPort}"
