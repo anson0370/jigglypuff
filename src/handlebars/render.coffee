@@ -74,14 +74,7 @@ renderFromRealPath = (path, context) ->
 
 module.exports =
   renderFile: (path, context) ->
-    try
-      renderFromRealPath getRealPath(path), context
-    catch err
-      if err instanceof FileNotFoundError
-        console.log "[View Not Found] #{err.path}"
-        "404 view not found: #{err.path}"
-      else
-        throw err
+    renderFromRealPath getRealPath(path), context
 
   renderComponent: (path, context) ->
     context = context or {}
