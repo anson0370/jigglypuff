@@ -28,7 +28,8 @@ All options has default value below:
       "serverPort": 8080,
       "filesHome": "public",
       "viewsHome": "public/views",
-      "componentsHome": "public/components"
+      "componentsHome": "public/components",
+      "dataFile": "data.js"
     }
 
 The config file (`jiggly.json`) can include multiple option groups. Depend on env variable `NODE_ENV`, one group will be loaded.
@@ -59,3 +60,25 @@ All unset options will use the default value.
 6. commit and push to git
 
 To compile and install the repo, use `npm run build`.
+
+### use mock data
+
+Write a `.js` file and setting the option `dataFile` to point to it.
+
+The data file may like below:
+
+    module.exports = {
+      "/api/test": {
+        data1: "some data",
+        data2: "some data2",
+        data3: ["11", "22", "33"]
+      },
+      "/api/test2": function(params) {
+        return {
+          data1: params.p1,
+          data2: params.p2
+        };
+      }
+    }
+
+Export your datas with url:object/function pair. And if functions provided, all the request params in form and query will be passed in.
