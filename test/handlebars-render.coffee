@@ -3,9 +3,6 @@ handlebars = require "handlebars"
 should = require "should"
 
 describe "handlebars/render", ->
-  before ->
-    render.registerLayout()
-
   it "should register layout correctly", ->
     should.exist handlebars.partials["_layout"]
     should.exist handlebars.partials["sub_dir/_layout"]

@@ -1,5 +1,6 @@
 _ = require "lodash"
 fs = require "fs"
+watch = require "node-watch"
 env = require "../enviroments"
 templateLoader = require "./template_loader"
 handlebars = require "handlebars"
@@ -32,26 +33,31 @@ handlebars.registerHelper "block", (name, options) ->
     blocks[name] = []
     content
 
-registerLayout = ->
-  # register all layout as partial
-  layouts = []
-  findLayouts = (dir) ->
-    files = fs.readdirSync(dir)
-    files.forEach (file) ->
-      filePath = "#{dir}/#{file}"
-      stat = fs.statSync filePath
-      if stat.isDirectory()
-        findLayouts filePath
-      else
-        if /layout\.hbs$/.test file
-          layouts.push filePath
-  findLayouts env.viewsHome
-  layouts.forEach (file) ->
-    t = fs.readFileSync file
-    name = file[(env.viewsHome.length + 1)..].split(".")[0]
-    name = "views/#{name}" if env.oldMode
-    handlebars.registerPartial name, handlebars.compile(t.toString())
-    # console.log "[Layout Registered] #{name} - #{file}"
+registerLayout = (filePath) ->
+  return unless /\.hbs$/.test(filePath)
+  t = fs.readFileSync filePath
+  name = filePath[(env.viewsHome.length + 1)..].split(".")[0]
+  name = "views/#{name}" if env.oldMode
+  handlebars.registerPartial name, handlebars.compile(t.toString())
+
+# register all layout as partial
+layouts = []
+findLayouts = (dir) ->
+  files = fs.readdirSync(dir)
+  files.forEach (file) ->
+    filePath = "#{dir}/#{file}"
+    if fs.statSync(filePath).isDirectory()
+      findLayouts filePath
+    else
+      layouts.push filePath
+findLayouts env.viewsHome
+layouts.forEach (file) ->
+  registerLayout file
+watch env.viewsHome, (filePath) ->
+  return unless fs.existsSync(filePath)
+  return if fs.statSync(filePath).isDirectory()
+  registerLayout(filePath)
+  console.log("[Layout Reload] #{filePath}")
 
 normalizePath = (path) ->
   if path[0] is "/" then path[1..] else path
@@ -88,8 +94,6 @@ module.exports =
         "component view not found: #{err.path}"
       else
         throw err
-
-  registerLayout: registerLayout
 
   CONST:
     COMP_PATH: "COMP_PATH"
