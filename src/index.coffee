@@ -1,3 +1,4 @@
+_ = require "lodash"
 fs = require "fs"
 # require env to init all config
 env = require "./enviroments"
@@ -12,12 +13,15 @@ app = express()
 # render file to html when no dot in path
 app.get /^([^\.]+)$/, (req, res) ->
   path = req.params[0]
+  # find data
+  dataResult = dataProvider.get(path, req.query)
   try
-    result = render.renderFile path, req.query
+    # merge data and query params
+    context = if _.isPlainObject(dataResult.result) then _.assign req.query, dataResult.result else req.query
+    result = render.renderFile path, context
     res.send result
   catch err
     if err instanceof FileNotFoundError
-      dataResult = dataProvider.get(path, req.query)
       if dataResult.found
         res.send(dataResult.result)
       else

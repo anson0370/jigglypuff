@@ -56,8 +56,11 @@ layouts.forEach (file) ->
 watch env.viewsHome, (filePath) ->
   return unless fs.existsSync(filePath)
   return if fs.statSync(filePath).isDirectory()
-  registerLayout(filePath)
-  console.log("[Layout Reload] #{filePath}")
+  try
+    registerLayout(filePath)
+    console.log("[Layout Reload] #{filePath}")
+  catch err
+    console.log("Layout Reload Error] #{filePath} - #{err}")
 
 normalizePath = (path) ->
   if path[0] is "/" then path[1..] else path

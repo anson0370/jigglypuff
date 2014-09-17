@@ -11,8 +11,11 @@ data = require(dataFilePath) if fs.existsSync(dataFilePath)
 
 watch dataFilePath, ->
   require.cache[dataFilePath] = null # clear module cache to reload module
-  data = require(dataFilePath)
-  console.log("[Data Reload]")
+  try
+    data = require(dataFilePath)
+    console.log("[Data Reload]")
+  catch err
+    console.log("[Data Reload Error] #{err}")
 
 module.exports =
   get: (path, params) ->
