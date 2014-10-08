@@ -26,20 +26,18 @@ watch dataFilePath, ->
     console.log("[Data Reload Error] #{err}")
 
 module.exports =
-  getUrlData: (path, params) ->
-    @getData("URL", path, params)
-
-  getCompData: (path, params) ->
-    @getData("COMP", path, params)
-
-  getData: (type, path, params) ->
-    targetData = switch type
-      when "URL" then urlData
-      when "COMP" then compData
-
-    return {found: false} unless _.has(targetData, path)
-    result = targetData[path]
+  getUrlData: (path, method, params) ->
+    return {found: false} unless _.has(urlData, path)
+    data = urlData[path]
     {
       found: true
-      result: if _.isFunction(result) then result(params) else result
+      result: if _.isFunction(data) then data(params, method) else data
+    }
+
+  getCompData: (path, params) ->
+    return {found: false} unless _.has(compData, path)
+    data = compData[path]
+    {
+      found: true
+      result: if _.isFunction(data) then data(params) else data
     }

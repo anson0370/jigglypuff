@@ -42,7 +42,7 @@ config.dataFile = path.resolve cwdPath, config.dataFile
 config.extraHelpers = _.map config.extraHelpers, (helperFile) ->
   path.resolve cwdPath, helperFile
 
-console.log "Config loaded:"
+console.log "config loaded:"
 console.log config
 
 module.exports = config

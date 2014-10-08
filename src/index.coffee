@@ -1,3 +1,5 @@
+console.log "version: 0.0.11"
+
 _ = require "lodash"
 fs = require "fs"
 # require env to init all config
@@ -39,7 +41,7 @@ app.get /^(.+)$/, (req, res, next) ->
 
 app.all /^(.+)$/, (req, res) ->
   path = req.params[0]
-  dataResult = dataProvider.getUrlData(path, req.query)
+  dataResult = dataProvider.getUrlData(path, req.method, req.query)
   if dataResult.found
     res.send(dataResult.result)
   else
