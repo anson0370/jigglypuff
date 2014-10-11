@@ -1,4 +1,4 @@
-console.log "version: 0.0.11"
+console.log "version: 0.0.12"
 
 _ = require "lodash"
 fs = require "fs"
