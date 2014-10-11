@@ -1,4 +1,5 @@
 handlebars = require "handlebars"
+_ = require "lodash"
 
 handlebars.registerHelper "helperMissing", ->
   "missing helper"
