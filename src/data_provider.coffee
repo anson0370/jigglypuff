@@ -1,29 +1,29 @@
 fs = require "fs"
 path = require "path"
-watch = require "node-watch"
+fileWatcher = require "./file_watcher"
 env = require "./enviroments"
 _ = require "lodash"
 
-dataFilePath = env.dataFile
+dataFilePaths = env.dataFiles
 
 urlData = {}
 compData = {}
 
-loadData = ->
+loadData = (dataFilePath) ->
   if fs.existsSync(dataFilePath)
     data = require(dataFilePath)
-    urlData = data.urls or {}
-    compData = data.comps or {}
+    urlData = _.assign urlData, data.urls
+    compData = _.assign compData, data.comps
 
-loadData()
+_.each dataFilePaths, loadData
 
-watch dataFilePath, ->
+fileWatcher.watchFiles dataFilePaths, (dataFilePath) ->
   require.cache[dataFilePath] = null # clear module cache to reload module
   try
-    loadData()
-    console.log("[Data Reload]")
+    loadData(dataFilePath)
+    console.log("[Data Reload] #{dataFilePath}")
   catch err
-    console.log("[Data Reload Error] #{err}")
+    console.log("[Data Reload Error] #{dataFilePath} - #{err}")
 
 module.exports =
   getUrlData: (path, method, params) ->

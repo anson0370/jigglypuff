@@ -10,8 +10,8 @@ config =
   filesHome: "public"
   viewsHome: undefined
   componentsHome: undefined
-  dataFile: "data.js"
-  extraHelpers: []
+  dataFiles: ["data.js"]
+  extraHelpers: ["extra_helpers.js"]
   oldMode: false
   pageMode: false
 
@@ -37,7 +37,8 @@ if config.componentsHome
 else
   config.componentsHome = path.resolve cwdPath, config.filesHome, "components"
 
-config.dataFile = path.resolve cwdPath, config.dataFile
+config.dataFiles = _.map config.dataFiles, (dataFile) ->
+  path.resolve cwdPath, dataFile
 
 config.extraHelpers = _.map config.extraHelpers, (helperFile) ->
   path.resolve cwdPath, helperFile

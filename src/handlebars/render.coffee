@@ -1,6 +1,6 @@
 _ = require "lodash"
 fs = require "fs"
-watch = require "node-watch"
+fileWatcher = require "../file_watcher"
 env = require "../enviroments"
 templateLoader = require "./template_loader"
 handlebars = require "handlebars"
@@ -51,9 +51,11 @@ findLayouts = (dir) ->
     else
       layouts.push filePath
 findLayouts env.viewsHome
+
 layouts.forEach (file) ->
   registerLayout file
-watch env.viewsHome, (filePath) ->
+
+fileWatcher.watchFiles env.viewsHome, (filePath) ->
   return unless fs.existsSync(filePath)
   return if fs.statSync(filePath).isDirectory()
   try

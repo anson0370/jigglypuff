@@ -7,6 +7,10 @@
       "extraHelpers": [
         "helpers/custom_helpers.js",
         "helpers/custom_helpers2.js"
+      ],
+      "dataFiles": [
+        "data.js",
+        "data2.js"
       ]
     }
   }
