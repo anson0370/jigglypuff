@@ -8,9 +8,7 @@
 
 First, install jigglypuff use git repo url or local path.
 
-`npm i -g git+ssh://#{git repo url here}`
-
-`npm i -g ~/dev/jigglypuff`
+`npm install -g jigglypuff`
 
 Second, run it.
 
@@ -29,7 +27,10 @@ All options has default value below:
       "filesHome": "public",
       "viewsHome": "public/views",
       "componentsHome": "public/components",
-      "dataFile": "data.js"
+      "dataFile": ["data.js"],
+      "extraHelpers": ["extra_helpers.js"],
+      "oldMode": false,
+      "pageMode": false
     }
 
 The config file (`jiggly.json`) can include multiple option groups. Depend on env variable `NODE_ENV`, one group will be loaded.
@@ -73,7 +74,7 @@ The data file may like below:
         data2: "some data2",
         data3: ["11", "22", "33"]
       },
-      "/api/test2": function(params) {
+      "/api/test2": function(params, method) { // method: GET, POST, PUT, DELETE...
         return {
           data1: params.p1,
           data2: params.p2
