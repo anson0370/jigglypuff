@@ -1,4 +1,4 @@
-console.log "version: 0.0.13"
+console.log "version: 0.0.14"
 
 _ = require "lodash"
 fs = require "fs"
@@ -34,7 +34,7 @@ app.get /^(.+)$/, (req, res, next) ->
   path = req.params[0]
   realPath = "#{env.filesHome}#{path}"
   if fs.existsSync realPath
-    res.sendfile realPath
+    res.sendFile realPath
   else
     # if static resource not found, next
     next()
