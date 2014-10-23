@@ -47,3 +47,18 @@ handlebars.registerHelper "size", (a, options) ->
   if a.size
     return if _.isFunction(a.size) then a.size() else a.size
   0
+
+handlebars.registerHelper "ifCond", (v1, operator, v2, options) ->
+  isTrue = switch operator
+    when "==" then `v1 == v2`
+    when "!=" then `v1 != v2`
+    when "===" then v1 == v2
+    when "!==" then v1 != v2
+    when "&&" then v1 && v2
+    when "||" then v1 || v2
+    when "<" then v1 < v2
+    when "<=" then v1 <= v2
+    when ">" then v1 > v2
+    when ">=" then v1 >= v2
+    else eval("#{v1}#{operator}#{v2}")
+  if isTrue then options.fn(@) else options.inverse(@)
