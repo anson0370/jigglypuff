@@ -14,6 +14,10 @@ Second, run it.
 
 `jiggly`
 
+help:
+
+`jiggly -h`
+
 ## config
 
 jigglypuff can accept a config file named `jiggly.json` under the work path.
@@ -27,8 +31,8 @@ All options has default value below:
       "filesHome": "public",
       "viewsHome": "public/views",
       "componentsHome": "public/components",
-      "dataFile": ["data.js"],
-      "extraHelpers": ["extra_helpers.js"],
+      "dataFile": [],
+      "extraHelpers": [],
       "oldMode": false,
       "pageMode": false
     }

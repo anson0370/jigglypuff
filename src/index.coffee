@@ -1,5 +1,3 @@
-console.log "version: 0.0.14"
-
 _ = require "lodash"
 fs = require "fs"
 # require env to init all config
