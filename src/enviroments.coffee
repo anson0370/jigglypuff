@@ -13,6 +13,7 @@ config =
   extraHelpers: []
   oldMode: false
   pageMode: false
+  assetsPrefix: undefined
 
 env = process.env.NODE_ENV or "dev"
 

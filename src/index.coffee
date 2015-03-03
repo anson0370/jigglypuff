@@ -1,3 +1,5 @@
+require "./polyfill"
+
 _ = require "lodash"
 fs = require "fs"
 # require env to init all config
@@ -30,6 +32,8 @@ app.get /^([^\.]+)$/, (req, res, next) ->
 # send file direct when dot in path
 app.get /^(.+)$/, (req, res, next) ->
   path = req.params[0]
+  if env.assetsPrefix isnt undefined and path.startsWith(env.assetsPrefix)
+    path = path.substring env.assetsPrefix.length
   realPath = "#{env.filesHome}#{path}"
   if fs.existsSync realPath
     res.sendFile realPath
