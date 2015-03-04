@@ -22,7 +22,7 @@ port = 8080
 
 if env isnt "test"
   commander
-    .version("Jigglypuff version: 0.0.15")
+    .version("Jigglypuff version: 0.0.17")
     .usage("[options] [file], file default: jiggly.json")
     .option("-p, --port [port]", "Use the specified port, will override port config in config.json.")
 
