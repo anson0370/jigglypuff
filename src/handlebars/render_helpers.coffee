@@ -15,5 +15,6 @@ handlebars.registerHelper "inject", (path, options) ->
 handlebars.registerHelper "component", (className, options) ->
   new handlebars.SafeString("<div class=\"#{className}\" data-comp-path=\"#{@[render.CONST.COMP_PATH]}\">#{options.fn(@)}</div>")
 
-handlebars.registerHelper "designPart", (key, options) ->
-  options.fn @
+handlebars.registerHelper "designPart", ->
+  options = _.last(arguments)
+  options.fn @ if options.fn
