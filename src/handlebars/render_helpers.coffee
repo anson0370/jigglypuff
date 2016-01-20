@@ -5,6 +5,7 @@ dataProvider = require "../data_provider"
 
 handlebars.registerHelper "inject", (path, options) ->
   tempContext = _.clone @
+  _.assign tempContext, options.hash
   if options.fn
     compData = JSON.parse(options.fn())
     _.assign tempContext, compData
