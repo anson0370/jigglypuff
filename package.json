@@ -4,10 +4,10 @@
   "author": {
     "name": "Anson Chan"
   },
-  "version": "0.0.20",
+  "version": "0.0.21",
   "dependencies": {
     "express": "~4",
-    "handlebars": "~2.0.0",
+    "handlebars": "4.0.4",
     "lodash": "~2.4.1",
     "async": "~0.2.9",
     "tracer": "~0.6.1",
