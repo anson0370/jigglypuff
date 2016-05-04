@@ -27,3 +27,7 @@ describe "data_provider", ->
     result = dataProvider.getCompData("test/comp2", {a: 1, b: 2}).result
     result.a.should.be.equal(1)
     result.b.should.be.equal(2)
+  it "should get global data", ->
+    result = dataProvider.getGlobalData()
+    result._USER_.id.should.be.equal(1)
+    result._USER_.name.should.be.equal("anson0370")

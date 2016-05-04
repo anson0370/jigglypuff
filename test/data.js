@@ -16,5 +16,8 @@ module.exports = {
         b: params.b
       };
     }
+  },
+  globals: {
+    "_USER_": { id: 1, name: "anson0370" }
   }
 };
